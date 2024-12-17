@@ -1,6 +1,6 @@
 <script setup lang="ts">
 useHead({
-  title: 'starter nuxt',
+  title: 'upload bundled',
   link: [
     {
       rel: 'icon',
