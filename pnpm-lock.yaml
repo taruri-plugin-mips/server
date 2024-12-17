@@ -24,6 +24,9 @@ importers:
       '@antfu/eslint-config':
         specifier: ^3.12.0
         version: 3.12.0(@typescript-eslint/utils@8.18.1(eslint@9.17.0(jiti@2.4.1))(typescript@5.7.2))(@vue/compiler-sfc@3.5.13)(eslint@9.17.0(jiti@2.4.1))(typescript@5.7.2)(vitest@2.1.8(@types/node@22.10.2)(happy-dom@15.11.7)(terser@5.37.0))
+      '@destyler/dialog':
+        specifier: ^0.0.6
+        version: 0.0.6(vue@3.5.13(typescript@5.7.2))
       '@destyler/tooltip':
         specifier: ^0.0.6
         version: 0.0.6(vue@3.5.13(typescript@5.7.2))
@@ -291,13 +294,33 @@ packages:
     peerDependencies:
       vue: ^3.3.4
 
+  '@destyler/dialog@0.0.6':
+    resolution: {integrity: sha512-bFjB2WqjHak8Bdn9xPWKgvMuz4lEURY61RP1u2GJ2ft6DhcE667mjepFPF4uB8Umfy796Ncg0zWtSv4p4rF4iA==}
+    peerDependencies:
+      vue: '>=3.4.21'
+
+  '@destyler/directives@0.0.6':
+    resolution: {integrity: sha512-cmz9KFa99um61bb5GWUPqzGqNI+9N65pDJSRd84IEYvvLTz516/jwAJZoAGxMKaXq/JY9wygUxw2bZTITjFhjg==}
+    peerDependencies:
+      vue: ^3.3.4
+
   '@destyler/dismissable-layer@0.0.6':
     resolution: {integrity: sha512-yHN86T6jVj4k5ueMYsRvkWK9CyUA/COxvrsJu1nJPvFO0GAhdqgsszXDnruY85qJn00akraBEBQduNfqbTBXfg==}
     peerDependencies:
       vue: '>=3.4.21'
 
+  '@destyler/focus-scope@0.0.6':
+    resolution: {integrity: sha512-qXuBwfQGdDqrS0iZZqDvpFUEi9dzyWpMFtlwik5RJI85EDwOd6l5sXremOnmjCwkYfQXty6U748hg47pz+YnqQ==}
+    peerDependencies:
+      vue: '>=3.4.21'
+
   '@destyler/popper@0.0.6':
     resolution: {integrity: sha512-fNO1H+vgBfNxCCuYPvqEyz24LgzOwI49QlX3vaNKVom7NISAUFaXV6k/u+ysDknOf/LdEuRxJ0JYR39mOZPxaQ==}
+    peerDependencies:
+      vue: '>=3.4.21'
+
+  '@destyler/presence@0.0.6':
+    resolution: {integrity: sha512-i4Su0W1ruI2l/a4rOqMhCB91lfVARb1c3ocUKST0lPU7JfjA6UBd+M2khSnbM/4FRtM48P4pwc+G96PeBFI/2A==}
     peerDependencies:
       vue: '>=3.4.21'
 
@@ -5157,12 +5180,41 @@ snapshots:
     transitivePeerDependencies:
       - '@vue/composition-api'
 
+  '@destyler/dialog@0.0.6(vue@3.5.13(typescript@5.7.2))':
+    dependencies:
+      '@destyler/composition': 0.0.6(vue@3.5.13(typescript@5.7.2))
+      '@destyler/directives': 0.0.6(vue@3.5.13(typescript@5.7.2))
+      '@destyler/dismissable-layer': 0.0.6(vue@3.5.13(typescript@5.7.2))
+      '@destyler/focus-scope': 0.0.6(vue@3.5.13(typescript@5.7.2))
+      '@destyler/presence': 0.0.6(vue@3.5.13(typescript@5.7.2))
+      '@destyler/primitive': 0.0.6(vue@3.5.13(typescript@5.7.2))
+      '@destyler/shared': 0.0.6(vue@3.5.13(typescript@5.7.2))
+      '@destyler/teleport': 0.0.6(vue@3.5.13(typescript@5.7.2))
+      vue: 3.5.13(typescript@5.7.2)
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+
+  '@destyler/directives@0.0.6(vue@3.5.13(typescript@5.7.2))':
+    dependencies:
+      '@destyler/shared': 0.0.6(vue@3.5.13(typescript@5.7.2))
+      scule: 1.3.0
+      vue: 3.5.13(typescript@5.7.2)
+
   '@destyler/dismissable-layer@0.0.6(vue@3.5.13(typescript@5.7.2))':
     dependencies:
       '@destyler/composition': 0.0.6(vue@3.5.13(typescript@5.7.2))
       '@destyler/primitive': 0.0.6(vue@3.5.13(typescript@5.7.2))
       '@destyler/shared': 0.0.6(vue@3.5.13(typescript@5.7.2))
       '@vueuse/core': 10.11.1(vue@3.5.13(typescript@5.7.2))
+      vue: 3.5.13(typescript@5.7.2)
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+
+  '@destyler/focus-scope@0.0.6(vue@3.5.13(typescript@5.7.2))':
+    dependencies:
+      '@destyler/composition': 0.0.6(vue@3.5.13(typescript@5.7.2))
+      '@destyler/primitive': 0.0.6(vue@3.5.13(typescript@5.7.2))
+      '@destyler/shared': 0.0.6(vue@3.5.13(typescript@5.7.2))
       vue: 3.5.13(typescript@5.7.2)
     transitivePeerDependencies:
       - '@vue/composition-api'
@@ -5174,6 +5226,14 @@ snapshots:
       '@destyler/primitive': 0.0.6(vue@3.5.13(typescript@5.7.2))
       '@destyler/shared': 0.0.6(vue@3.5.13(typescript@5.7.2))
       '@floating-ui/vue': 1.1.5(vue@3.5.13(typescript@5.7.2))
+      vue: 3.5.13(typescript@5.7.2)
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+
+  '@destyler/presence@0.0.6(vue@3.5.13(typescript@5.7.2))':
+    dependencies:
+      '@destyler/composition': 0.0.6(vue@3.5.13(typescript@5.7.2))
+      '@destyler/shared': 0.0.6(vue@3.5.13(typescript@5.7.2))
       vue: 3.5.13(typescript@5.7.2)
     transitivePeerDependencies:
       - '@vue/composition-api'

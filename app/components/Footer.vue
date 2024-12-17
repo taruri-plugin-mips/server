@@ -90,13 +90,15 @@ function toggleDark() {
         </TooltipProvider>
 
         <hr class="w-px h-15px bg-dark/70 dark:bg-light/70 border-none">
-        <div
-          class="p-1.5 rounded-md cursor-pointer text-base flex justify-center items-center hover:bg-gray/20"
-          @click="toggleDark"
-        >
-          <Icones v-if="color.value === 'dark'" name="i-carbon-moon" class="w-17px h-17px" />
-          <Icones v-else name="i-carbon-sun" class="w-17px h-17px" />
-        </div>
+        <ClientOnly>
+          <div
+            class="p-1.5 rounded-md cursor-pointer text-base flex justify-center items-center hover:bg-gray/20"
+            @click="toggleDark"
+          >
+            <Icones v-if="color.value === 'dark'" name="i-carbon-moon" class="w-17px h-17px" />
+            <Icones v-else name="i-carbon-sun" class="w-17px h-17px" />
+          </div>
+        </ClientOnly>
       </nav>
     </div>
   </div>
