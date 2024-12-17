@@ -13,7 +13,7 @@ useHead({
 
 <template>
   <NuxtLayout>
-    <main font-sans p="x-4 y-10" text="center gray-700 dark:gray-200">
+    <main class="w-full h-full">
       <NuxtPage />
       <LazyFooter />
     </main>
@@ -27,8 +27,11 @@ html, body , #__nuxt{
   padding: 0;
 }
 
+html {
+  background: #FFFFFF;
+}
+
 html.dark {
   background: #222222;
-  color: #ffffff;
 }
 </style>

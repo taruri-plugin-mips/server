@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^3.12.0",
+    "@destyler/tooltip": "^0.0.6",
     "@iconify-json/carbon": "^1.2.5",
     "@iconify-json/twemoji": "^1.2.2",
     "@nuxt/devtools": "^1.6.4",
@@ -36,6 +37,7 @@
     "happy-dom": "^15.11.7",
     "nuxt-vitest": "^0.11.5",
     "typescript": "^5.7.2",
+    "unocss-preset-animations": "^1.1.0",
     "vitest": "^2.1.8"
   }
 }

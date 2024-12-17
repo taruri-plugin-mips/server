@@ -1,0 +1,11 @@
+body {
+  --background-gray: 0 0 100%;
+  --border-gray: 0 0% 90.2%;
+  --primary-color: 205 90.2% 48%;
+}
+
+.dark body {
+  --background-gray: 0 0 17.3%;
+  --border-gray: 0 0 26.3%;
+  --primary-color: 205 90.2% 48%;
+}

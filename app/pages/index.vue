@@ -1,6 +1,10 @@
 <template>
-  <div>
-    <div i-carbon-piggy-bank-slot text-4xl inline-block />
-    <Suspense />
+  <div class="flex justify-center items-center h-screen">
+    <Suspense>
+      <LazyUpload />
+      <template #fallback>
+        Loading...
+      </template>
+    </Suspense>
   </div>
 </template>
