@@ -21,4 +21,12 @@ export default defineNuxtConfig({
   devtools: {
     enabled: true,
   },
+  runtimeConfig: {
+    folder: '/root/code', // `dev_token` is the default value
+  },
+  nitro: {
+    experimental: {
+      websocket: true,
+    }
+  },
 })

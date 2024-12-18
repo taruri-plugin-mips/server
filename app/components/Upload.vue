@@ -1,7 +1,9 @@
 <script setup lang="ts">
 const model = defineModel()
 
-const { files, open, reset, onCancel, onChange } = useFileDialog()
+const { files, open, reset, onChange } = useFileDialog({
+  multiple: false,
+})
 
 const dialogToggle = ref<boolean>(false)
 

@@ -11,6 +11,31 @@ import {
 const model = defineModel<boolean>({ default: false })
 
 const file = defineModel<FileList | null>('file', { default: null })
+
+// eslint-disable-next-line regexp/no-super-linear-backtracking, regexp/no-misleading-capturing-group
+const regex = /(.+)-(.+)-release\.zip/
+
+const fileInfo = computed(() => {
+  const match = file.value?.[0]?.name.match(regex)
+  return {
+    name: match?.[1],
+    version: match?.[2],
+  }
+})
+
+const router = useRouter()
+
+async function handleConfirm() {
+  const formdata = new FormData()
+  formdata.append('file', file.value?.[0] as File, `${fileInfo.value.name}-${fileInfo.value.version}-release.zip`)
+  await $fetch('/api/release', {
+    method: 'post',
+    body: formdata,
+  }).then((res: any) => {
+    console.log(res)
+    router.push(`/action?folder=${res.folder}`)
+  })
+}
 </script>
 
 <template>
@@ -48,8 +73,15 @@ const file = defineModel<FileList | null>('file', { default: null })
             Release Project Info
           </DialogTitle>
         </div>
-        <div>
-          {{ file?.[0]?.name }}
+        <div class="flex flex-col space-y-2">
+          <div class="flex justify-start gap-2">
+            <span class="font-bold">Name: </span>
+            <span>{{ fileInfo.name }}</span>
+          </div>
+          <div class="flex justify-start gap-2">
+            <span class="font-bold">Version: </span>
+            <span><code>{{ fileInfo.version }}</code></span>
+          </div>
         </div>
         <div class="w-full flex justify-end gap-4">
           <DialogClose
@@ -58,6 +90,7 @@ const file = defineModel<FileList | null>('file', { default: null })
             bg-dark text-light hover:bg-dark/90
             px-2 py-1 rounded-md
             "
+            @click="handleConfirm"
           >
             Confirm
           </DialogClose>
