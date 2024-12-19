@@ -10,11 +10,24 @@ export default defineWebSocketHandler({
     // 在 message.text() 中获取到的是客户端发送的消息,去除跟 folder 相同的部分
     const path = message.text().replace(folder, '')
 
-    const arch = ['amd', 'arm', 'mips']
+    const arch = [
+      {
+        name: 'amd',
+        target: 'x86_64-unknown-linux-gnu',
+      },
+      {
+        name: 'arm',
+        target: '',
+      },
+      {
+        name: 'mips',
+        target: '',
+      },
+    ]
     arch.forEach((item) => {
       // amd release build
       exec(
-        `docker exec -d tauri-${item} sh -c "cd ${dockerFolder}${path} && cargo tauri build --target x86_64-unknown-linux-gnu > ${dockerFolder}${path}/tauri_build_${item}.log 2>&1; echo 'BUILD FINISHED' >> ${dockerFolder}${path}/tauri_build_${item}.log"`,
+        `docker exec -d tauri-${item.name} sh -c "cd ${dockerFolder}${path} && cargo tauri build --target x86_64-unknown-linux-gnu > ${dockerFolder}${path}/tauri_build_${item.name}.log 2>&1; echo 'BUILD FINISHED' >> ${dockerFolder}${path}/tauri_build_${item.name}.log"`,
         (error, stdout, stderr) => {
           if (error) {
             console.error(`exec error: ${error}`)
@@ -50,11 +63,6 @@ export default defineWebSocketHandler({
         },
       )
     })
-
-    peer.send(JSON.stringify({
-      status: 201,
-      message: '2.0 -> build arm and other',
-    }))
   },
   close(peer) {
     peer.send('close project release')
