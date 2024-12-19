@@ -32,7 +32,6 @@ async function handleConfirm() {
     method: 'post',
     body: formdata,
   }).then((res: any) => {
-    console.log(res)
     router.push(`/action?folder=${res.folder}`)
   })
 }

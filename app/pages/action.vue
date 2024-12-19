@@ -1,24 +1,7 @@
 <script setup lang="ts">
 const route = useRoute()
 
-const { send, status, data, open, close } = useWebSocket(`ws://${location.host}/bunded`, {
-  immediate: false,
-})
-
-const folder = computed(() => route.query.folder?.toString())
-
-onMounted(() => {
-  // send(route.query.folder)
-
-  // watch(data, (value) => {
-  //   console.log(value)
-  //   const resp = JSON.parse(value)
-  //   if (resp.status === 200) {
-  //     console.log('Release success')
-  //     close()
-  //   }
-  // })
-})
+const folder = computed(() => route.query.folder?.toString() || '')
 </script>
 
 <template>

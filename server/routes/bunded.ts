@@ -5,43 +5,56 @@ export default defineWebSocketHandler({
   message(peer, message) {
     peer.subscribe(message.text())
 
-    // amd release build
-    exec(
-      `docker exec -d tauri-amd sh -c "cd /root/code/tauri_v1/src-tauri && cargo tauri build --target x86_64-unknown-linux-gnu > /root/code/tauri_build.log 2>&1; echo 'BUILD FINISHED' >> /root/code/tauri_build.log"`,
-      (error, stdout, stderr) => {
-        if (error) {
-          console.error(`exec error: ${error}`)
-          return
-        }
-        if (stderr) {
-          console.log(`stderr: ${stderr}`)
-        }
-        // starts
-        peer.send(JSON.stringify({
-          status: 201,
-          message: 'Build amd started...',
-        }))
-        // 侦听文件变化
-        fs.watchFile('/Users/elonehoo/Downloads/tauri_build.log', (curr, prev) => {
-          // 判断最后一行是否为 BUILD FINISHED
-          const log = fs.readFileSync('/Users/elonehoo/Downloads/tauri_build.log', 'utf-8')
-          const lines = log.split('\n')
-          const lastLine = lines[lines.length - 2]
-          if (lastLine === 'BUILD FINISHED') {
-            peer.send(JSON.stringify({
-              status: 200,
-              message: 'Build amd finished...',
-            }))
+    const folder = useRuntimeConfig().folder
+    const dockerFolder = useRuntimeConfig().dockerFolder
+    // 在 message.text() 中获取到的是客户端发送的消息,去除跟 folder 相同的部分
+    const path = message.text().replace(folder, '')
+
+    const arch = ['amd', 'arm', 'mips']
+    arch.forEach((item) => {
+      // amd release build
+      exec(
+        `docker exec -d tauri-${item} sh -c "cd ${dockerFolder}${path} && cargo tauri build --target x86_64-unknown-linux-gnu > ${dockerFolder}${path}/tauri_build_${item}.log 2>&1; echo 'BUILD FINISHED' >> ${dockerFolder}${path}/tauri_build_${item}.log"`,
+        (error, stdout, stderr) => {
+          if (error) {
+            console.error(`exec error: ${error}`)
+            return
           }
-          else {
-            peer.send(JSON.stringify({
-              status: 201,
-              message: 'Building amd...',
-            }))
+          if (stderr) {
+            console.log(`stderr: ${stderr}`)
           }
-        })
-      },
-    )
+          // starts
+          peer.send(JSON.stringify({
+            status: 201,
+            message: 'Build amd started...',
+          }))
+          // 侦听文件变化
+          fs.watchFile(`${path}/tauri_build_amd.log`, (_curr, _prev) => {
+            // 判断最后一行是否为 BUILD FINISHED
+            const log = fs.readFileSync(`${path}/tauri_build_amd.log`, 'utf-8')
+            const lines = log.split('\n')
+            const lastLine = lines[lines.length - 2]
+            if (lastLine === 'BUILD FINISHED') {
+              peer.send(JSON.stringify({
+                status: 201,
+                message: 'Build amd finished...next bunded...',
+              }))
+            }
+            else {
+              peer.send(JSON.stringify({
+                status: 201,
+                message: lastLine,
+              }))
+            }
+          })
+        },
+      )
+    })
+
+    peer.send(JSON.stringify({
+      status: 201,
+      message: '2.0 -> build arm and other',
+    }))
   },
   close(peer) {
     peer.send('close project release')

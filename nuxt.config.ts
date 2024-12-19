@@ -22,11 +22,12 @@ export default defineNuxtConfig({
     enabled: true,
   },
   runtimeConfig: {
-    folder: '/root/code', // `dev_token` is the default value
+    folder: '/root/code',
+    dockerFolder: '/root/code',
   },
   nitro: {
     experimental: {
       websocket: true,
-    }
+    },
   },
 })
