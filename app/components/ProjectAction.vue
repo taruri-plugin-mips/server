@@ -10,7 +10,7 @@ onMounted(() => {
     immediate: false,
   })
 
-  // open()
+  open()
   send(props.folder)
 
   watch(data, (value) => {
