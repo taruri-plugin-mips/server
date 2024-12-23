@@ -11,6 +11,14 @@ import { presetAnimations } from 'unocss-preset-animations'
 
 export default defineConfig({
   shortcuts: [],
+  rules: [
+    [/^scrollbar-hide$/, ([_]) => {
+      return `.scrollbar-hide{scrollbar-width:none}.scrollbar-hide::-webkit-scrollbar{display:none}`
+    }],
+    [/^scrollbar-default$/, ([_]) => {
+      return `.scrollbar-default{scrollbar-width:auto}.scrollbar-default::-webkit-scrollbar{display:block}`
+    }],
+  ],
   theme: {
     colors: {
       gray: {

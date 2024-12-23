@@ -5,8 +5,10 @@ const props = defineProps<{
 
 const history = ref<any>([])
 
+const actionItemRef = useTemplateRef('action-item')
+
 onMounted(() => {
-  const { send, status, data, open, close } = useWebSocket(`ws://${location.host}/bunded`, {
+  const { send, data, open, close } = useWebSocket(`ws://${location.host}/bunded`, {
     immediate: false,
   })
 
@@ -16,6 +18,7 @@ onMounted(() => {
   watch(data, (value) => {
     const resp = JSON.parse(value)
     history.value.push(resp)
+    actionItemRef.value!.scrollTop = actionItemRef.value!.scrollHeight
     if (resp.status === 200) {
       close()
     }
@@ -24,7 +27,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex flex-col w-120 h-80 border border-gray-border rounded-2xl px-4 py-2 text-dark dark:text-light">
+  <div ref="action-item" class="flex flex-col w-120 h-80 border border-gray-border rounded-2xl px-4 py-2 text-dark dark:text-light overflow-auto scrollbar-hide">
     <Actionitem v-for="(item, index) in history" :key="index" :status="item.status" :value="item.message" />
   </div>
 </template>
