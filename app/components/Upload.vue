@@ -1,6 +1,4 @@
 <script setup lang="ts">
-const model = defineModel()
-
 const { files, open, reset, onChange } = useFileDialog({
   multiple: false,
 })

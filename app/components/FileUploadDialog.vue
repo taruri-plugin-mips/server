@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { Arch } from '~~/server/utils/useBuild'
+import { CheckboxIndicator, CheckboxRoot } from '@destyler/checkbox'
 import {
   DialogClose,
   DialogContent,
@@ -7,6 +9,8 @@ import {
   DialogRoot,
   DialogTitle,
 } from '@destyler/dialog'
+import { Divider } from '@destyler/divider'
+import { SwitchRoot, SwitchThumb } from '@destyler/switch'
 
 const model = defineModel<boolean>({ default: false })
 
@@ -23,6 +27,24 @@ const fileInfo = computed(() => {
   }
 })
 
+const archList = ref<{
+  arch: Arch
+  model: boolean
+}[]>([])
+
+onMounted(() => {
+  $fetch('/api/arch').then((res) => {
+    res.forEach((item: Arch) => {
+      archList.value.push({
+        arch: item,
+        model: true,
+      })
+    })
+  })
+})
+
+const debugMode = ref<boolean>(false)
+
 const router = useRouter()
 
 async function handleConfirm() {
@@ -32,7 +54,7 @@ async function handleConfirm() {
     method: 'post',
     body: formdata,
   }).then((res: any) => {
-    router.push(`/action?folder=${res.folder}`)
+    router.push(`/action?folder=${res.folder}&debug=${debugMode.value}&arch=${archList.value.filter(item => item.model).map(item => item.arch.name).join(',')}`)
   })
 }
 </script>
@@ -80,6 +102,53 @@ async function handleConfirm() {
           <div class="flex justify-start gap-2">
             <span class="font-bold">Version: </span>
             <span><code>{{ fileInfo.version }}</code></span>
+          </div>
+          <div class="flex justify-start gap-2">
+            <span class="font-bold">Debug Mode: </span>
+            <span>
+              <SwitchRoot
+                v-model:checked="debugMode"
+                class="
+                peer inline-flex h-6 w-11 shrink-0 cursor-pointer items-center
+                rounded-full border-2 border-transparent transition-colors
+                focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring
+                focus-visible:ring-offset-2
+                disabled:cursor-not-allowed disabled:opacity-50
+                data-[state=checked]:bg-gray data-[state=unchecked]:bg-gray-border
+                "
+              >
+                <SwitchThumb
+                  class="
+                  pointer-events-none block h-5 w-5 rounded-full
+                  bg-gray-background
+                  shadow-lg ring-0 transition-transform
+                  data-[state=checked]:translate-x-5
+                  data-[state=unchecked]:translate-x-0
+                  "
+                />
+              </SwitchRoot>
+            </span>
+          </div>
+          <div class="flex justify-start gap-2">
+            <div><span class="font-bold">Build Arch: </span></div>
+            <div class="flex ">
+              <span v-for="(arch, index) in archList" :key="arch.arch.name" class="flex ">
+                <span class="flex items-center gap-1">
+                  <CheckboxRoot v-model:checked="arch.model" class="h-4 w-4 shrink-0 rounded-sm border border-gray-border shadow focus-visible:outline-none focus-visible:ring-1 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-gray-background">
+                    <CheckboxIndicator class="flex items-center justify-center text-current">
+                      <div class="i-carbon:checkmark w-4 h-4" />
+                    </CheckboxIndicator>
+                  </CheckboxRoot>
+                  <span>{{ arch.arch.name }}</span>
+                </span>
+                <Divider
+                  v-if="index < archList.length - 1"
+                  class="bg-gray-border data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-8/10 data-[orientation=vertical]:w-px mx-3"
+                  decorative
+                  orientation="vertical"
+                />
+              </span>
+            </div>
           </div>
         </div>
         <div class="w-full flex justify-end gap-4">

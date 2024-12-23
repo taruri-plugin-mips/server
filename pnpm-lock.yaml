@@ -24,7 +24,16 @@ importers:
       '@antfu/eslint-config':
         specifier: ^3.12.0
         version: 3.12.0(@typescript-eslint/utils@8.18.1(eslint@9.17.0(jiti@2.4.2))(typescript@5.7.2))(@vue/compiler-sfc@3.5.13)(eslint@9.17.0(jiti@2.4.2))(typescript@5.7.2)(vitest@2.1.8(@types/node@22.10.2)(happy-dom@15.11.7)(terser@5.37.0))
+      '@destyler/checkbox':
+        specifier: ^0.0.6
+        version: 0.0.6(vue@3.5.13(typescript@5.7.2))
       '@destyler/dialog':
+        specifier: ^0.0.6
+        version: 0.0.6(vue@3.5.13(typescript@5.7.2))
+      '@destyler/divider':
+        specifier: ^0.0.6
+        version: 0.0.6(vue@3.5.13(typescript@5.7.2))
+      '@destyler/switch':
         specifier: ^0.0.6
         version: 0.0.6(vue@3.5.13(typescript@5.7.2))
       '@destyler/tooltip':
@@ -307,6 +316,11 @@ packages:
     peerDependencies:
       vue: '>=3.4.21'
 
+  '@destyler/checkbox@0.0.6':
+    resolution: {integrity: sha512-Une3DxorYrIMJP4SW0MfO28QK6w7OZzD1TzYS5IbVLuFIAIaEQU1YW74/FN6wluM2Nw/cu68j7KQYPRCZwgYYw==}
+    peerDependencies:
+      vue: '>=3.4.21'
+
   '@destyler/composition@0.0.6':
     resolution: {integrity: sha512-9DTpDgAo+tQdeYxIv2KshNRUjY0m+xNrvuESuaEG8PJchp+nh/juTuqSuJOFWUoWOGfNsJJETYUQOpM4mDWTrA==}
     peerDependencies:
@@ -324,6 +338,11 @@ packages:
 
   '@destyler/dismissable-layer@0.0.6':
     resolution: {integrity: sha512-yHN86T6jVj4k5ueMYsRvkWK9CyUA/COxvrsJu1nJPvFO0GAhdqgsszXDnruY85qJn00akraBEBQduNfqbTBXfg==}
+    peerDependencies:
+      vue: '>=3.4.21'
+
+  '@destyler/divider@0.0.6':
+    resolution: {integrity: sha512-YPn08uTt8MZtqOyv0h6yX7ehPtRicDT0WsPnQuCAYE6sTL6HC962H5uetOJNMYEjRLwP1thTWqSm7uIeGU8V4g==}
     peerDependencies:
       vue: '>=3.4.21'
 
@@ -351,6 +370,11 @@ packages:
     resolution: {integrity: sha512-iZ5PuT+ZulfphWoQvPnwoXR8pAfYhx+TTacrELZ0x9xTK4WmXFKgzFpzY6P+fBngdhm9BDGIiKFB9cxlJHPXuw==}
     peerDependencies:
       vue: ^3.3.4
+
+  '@destyler/switch@0.0.6':
+    resolution: {integrity: sha512-9uI4uhIUkab+L/x/nrWYKtdEqw/b10FDeagtLFEwbyzZ7+J5rNrIv3D5lc6lvpGHEuEdQA7n1pIoiDL4Xh9TFA==}
+    peerDependencies:
+      vue: '>=3.4.21'
 
   '@destyler/teleport@0.0.6':
     resolution: {integrity: sha512-4mBjhCy6LQnft+L6vhC5a5BeZsOIbsxdrHC+iYNgrQ9jezaqfQYBq5H31YxZWCpVOKz0nzHUt8PA77E6pAYKBg==}
@@ -5207,6 +5231,17 @@ snapshots:
     transitivePeerDependencies:
       - '@vue/composition-api'
 
+  '@destyler/checkbox@0.0.6(vue@3.5.13(typescript@5.7.2))':
+    dependencies:
+      '@destyler/composition': 0.0.6(vue@3.5.13(typescript@5.7.2))
+      '@destyler/directives': 0.0.6(vue@3.5.13(typescript@5.7.2))
+      '@destyler/presence': 0.0.6(vue@3.5.13(typescript@5.7.2))
+      '@destyler/primitive': 0.0.6(vue@3.5.13(typescript@5.7.2))
+      '@destyler/shared': 0.0.6(vue@3.5.13(typescript@5.7.2))
+      vue: 3.5.13(typescript@5.7.2)
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+
   '@destyler/composition@0.0.6(vue@3.5.13(typescript@5.7.2))':
     dependencies:
       '@destyler/shared': 0.0.6(vue@3.5.13(typescript@5.7.2))
@@ -5245,6 +5280,14 @@ snapshots:
       '@destyler/primitive': 0.0.6(vue@3.5.13(typescript@5.7.2))
       '@destyler/shared': 0.0.6(vue@3.5.13(typescript@5.7.2))
       '@vueuse/core': 10.11.1(vue@3.5.13(typescript@5.7.2))
+      vue: 3.5.13(typescript@5.7.2)
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+
+  '@destyler/divider@0.0.6(vue@3.5.13(typescript@5.7.2))':
+    dependencies:
+      '@destyler/primitive': 0.0.6(vue@3.5.13(typescript@5.7.2))
+      '@destyler/shared': 0.0.6(vue@3.5.13(typescript@5.7.2))
       vue: 3.5.13(typescript@5.7.2)
     transitivePeerDependencies:
       - '@vue/composition-api'
@@ -5289,6 +5332,16 @@ snapshots:
     dependencies:
       '@internationalized/date': 3.6.0
       vue: 3.5.13(typescript@5.7.2)
+
+  '@destyler/switch@0.0.6(vue@3.5.13(typescript@5.7.2))':
+    dependencies:
+      '@destyler/composition': 0.0.6(vue@3.5.13(typescript@5.7.2))
+      '@destyler/directives': 0.0.6(vue@3.5.13(typescript@5.7.2))
+      '@destyler/primitive': 0.0.6(vue@3.5.13(typescript@5.7.2))
+      '@destyler/shared': 0.0.6(vue@3.5.13(typescript@5.7.2))
+      vue: 3.5.13(typescript@5.7.2)
+    transitivePeerDependencies:
+      - '@vue/composition-api'
 
   '@destyler/teleport@0.0.6(vue@3.5.13(typescript@5.7.2))':
     dependencies:
