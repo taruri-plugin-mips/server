@@ -1,7 +1,12 @@
 <script setup lang="ts">
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   folder: string
-}>()
+  debug?: boolean
+  arch?: string
+}>(), {
+  debug: false,
+  arch: 'amd,arm,mips',
+})
 
 const history = ref<any>([])
 
@@ -13,7 +18,14 @@ onMounted(() => {
   })
 
   open()
-  send(props.folder)
+
+  send(
+    JSON.stringify({
+      folder: props.folder,
+      debug: props.debug,
+      arch: props.arch,
+    }),
+  )
 
   watch(data, (value) => {
     const resp = JSON.parse(value)
