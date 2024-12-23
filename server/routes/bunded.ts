@@ -4,6 +4,7 @@ import { arch } from '../utils/useBuild'
 
 export default defineWebSocketHandler({
   async message(peer, message) {
+    consola.ready('message', message.text())
     peer.subscribe(message.text())
 
     const releaseFolder = message.text()
