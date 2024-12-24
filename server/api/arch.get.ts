@@ -1,4 +1,4 @@
-import { arch } from '../utils/useBuild'
+import { arch } from '../utils/arch'
 
 export default defineEventHandler(() => {
   return arch

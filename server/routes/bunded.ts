@@ -1,13 +1,17 @@
+import type { Message } from '~~/types'
 import { consola } from 'consola'
 import { join } from 'pathe'
-import { arch } from '../utils/useBuild'
 
 export default defineWebSocketHandler({
   async message(peer, message) {
-    consola.ready('message', message.text())
+    consola.ready('message', JSON.parse(message.text()))
     peer.subscribe(message.text())
 
-    const releaseFolder = message.text()
+    const msg: Message = JSON.parse(message.text()) as Message
+
+    const releaseFolder = msg.folder
+    const debug = msg.debug
+    const arch = useArch(msg.arch)
     let _successFlag = 0
 
     for (const item of arch) {
@@ -19,11 +23,17 @@ export default defineWebSocketHandler({
 
         consola.info(`copy ${item.name} finished -> `, res)
 
-        await useBuild({
-          arch: item,
-          path: res.path,
-          minPath: res.minPath,
-        }, peer)
+        await useBuild(
+          {
+            arch: item,
+            path: res.path,
+            minPath: res.minPath,
+          },
+          peer,
+          {
+            debug,
+          },
+        )
 
         consola.success(`${item.name} Build finished.`)
         _successFlag += 1

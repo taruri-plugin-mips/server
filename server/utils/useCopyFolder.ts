@@ -1,12 +1,12 @@
 import { copy, type CopyFilterAsync, type CopyFilterSync } from 'fs-extra'
 
-interface CopyFOlderProps {
+interface CopyFolderProps {
   src: string
   desc: string
   filter?: CopyFilterSync | CopyFilterAsync | undefined
 }
 
-export function useCopyFolder(props: CopyFOlderProps) {
+export function useCopyFolder(props: CopyFolderProps) {
   const folder = useRuntimeConfig().folder
   return new Promise<{ path: string, minPath: string }>((resolve, reject) => {
     copy(`${props.src}`, props.desc, {
