@@ -29,11 +29,11 @@ onMounted(() => {
 
   watch(data, (value) => {
     const resp = JSON.parse(value)
-    history.value.push(resp)
-    actionItemRef.value!.scrollTop = actionItemRef.value!.scrollHeight
     if (resp.status === 200) {
       close()
     }
+    history.value.push(resp)
+    actionItemRef.value!.scrollTop = actionItemRef.value!.scrollHeight
   })
 })
 </script>
