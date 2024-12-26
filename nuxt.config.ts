@@ -1,5 +1,5 @@
 export default defineNuxtConfig({
-  compatibilityDate: '2024-12-17',
+  compatibilityDate: '2024-12-26',
   future: {
     compatibilityVersion: 4,
   },
@@ -9,7 +9,6 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@nuxtjs/color-mode',
     '@nuxt/devtools',
-    'nuxt-vitest',
   ],
   css: [
     '@unocss/reset/tailwind.css',
