@@ -1,5 +1,5 @@
 import type { Message } from '~~/types'
-import { existsSync, readFileSync, unwatchFile, watchFile } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import TailFile from '@logdna/tail-file'
 import { consola } from 'consola'
 import { createFileSync } from 'fs-extra'
@@ -22,6 +22,7 @@ export default defineWebSocketHandler({
     const logPath = join(releaseFolder, '..', 'tauri_build.log')
     // 判断文件是否存在，不存在则创建
     if (!existsSync(logPath)) {
+      // 编译
       createFileSync(logPath)
       const minLogoPath = logPath.replace(folder, '')
 
@@ -66,6 +67,7 @@ export default defineWebSocketHandler({
       }
     }
     else {
+      // 查看日志
       const log = readFileSync(`${logPath}`, 'utf-8')
       log.split('\n').forEach((line) => {
         if (line === 'BUILD FINISHED') {
@@ -76,13 +78,14 @@ export default defineWebSocketHandler({
         }
       })
       const tail = new TailFile(logPath, { encoding: 'utf-8' })
-      tail.on('data', (line) => {
-        consola.info(line)
-        peer.send(useSend201(`${line}`))
-        if (line.includes('BUILD FINISHED')) {
-          peer.send(useSend200('Build finished.'))
-          tail.quit()
-        }
+      tail.on('data', (data) => {
+        data.split('\n').filter((line: any) => line.trim() !== '').forEach((line: any) => {
+          consola.info(line)
+          peer.send(useSend201(`${line}`))
+          if (['BUILD FINISHED'].includes(line)) {
+            tail.quit()
+          }
+        })
       }).start()
     }
   },
