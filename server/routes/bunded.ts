@@ -63,6 +63,7 @@ export default defineWebSocketHandler({
 
           consola.success(`${item.name} Build finished.`)
           _successFlag += 1
+          // todo next action ...
           if (_successFlag >= arch.length) {
             peer.send(useSend200('Build finished.'))
           }
