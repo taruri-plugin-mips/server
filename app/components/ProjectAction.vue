@@ -33,7 +33,7 @@ onMounted(() => {
       close()
     }
     history.value.push(resp)
-    actionItemRef.value!.scrollTop = actionItemRef.value!.scrollHeight
+    actionItemRef.value!.scrollTop = actionItemRef.value!.scrollHeight + 400
   })
 })
 </script>

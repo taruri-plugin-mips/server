@@ -1,7 +1,7 @@
 import type { Peer } from 'crossws'
 import type { Arch } from '~~/types'
 import { exec } from 'node:child_process'
-import { readFileSync, unwatchFile, watchFile } from 'node:fs'
+import TailFile from '@logdna/tail-file'
 import { consola } from 'consola'
 
 interface BuildProps {
@@ -42,22 +42,18 @@ export function useBuild(
           consola.error(`exec error: ${stderr}`)
           reject(stderr)
         }
-        watchFile(`${_options.logpath.full}`, () => {
-          const log = readFileSync(`${_options.logpath.full}`, 'utf-8')
-          const lines = log.split('\n')
-          const lastLine = lines[lines.length - 2]
-          consola.start(lastLine)
-          if (['BUILD FINISHED', 'BUILD NEXT'].includes(lastLine!)) {
-            if (lastLine === 'BUILD FINISHED') {
-              unwatchFile(`${_options.logpath.full}`)
-            }
-            resolve()
-          }
-          else {
-            peer.send(useSend201(`${lastLine}`))
-          }
-        })
       },
     )
+    const tail = new TailFile(_options.logpath.full, { encoding: 'utf-8' })
+    tail.on('data', (data) => {
+      data.split('\n').filter((line: any) => line.trim() !== '').forEach((line: any) => {
+        consola.info(line)
+        peer.send(useSend201(`${line}`))
+        if (['BUILD FINISHED', 'BUILD NEXT'].includes(line)) {
+          tail.quit()
+          resolve()
+        }
+      })
+    }).start()
   })
 }

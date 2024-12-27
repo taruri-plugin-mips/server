@@ -1,5 +1,6 @@
 import type { Message } from '~~/types'
 import { existsSync, readFileSync, unwatchFile, watchFile } from 'node:fs'
+import TailFile from '@logdna/tail-file'
 import { consola } from 'consola'
 import { createFileSync } from 'fs-extra'
 import { join } from 'pathe'
@@ -74,19 +75,15 @@ export default defineWebSocketHandler({
           peer.send(useSend201(line))
         }
       })
-      watchFile(`${logPath}`, () => {
-        const log = readFileSync(`${logPath}`, 'utf-8')
-        const lines = log.split('\n')
-        const lastLine = lines[lines.length - 2]
-        consola.start(lastLine)
-        if (lastLine === 'BUILD FINISHED') {
-          unwatchFile(`${logPath}`)
+      const tail = new TailFile(logPath, { encoding: 'utf-8' })
+      tail.on('data', (line) => {
+        consola.info(line)
+        peer.send(useSend201(`${line}`))
+        if (line.includes('BUILD FINISHED')) {
           peer.send(useSend200('Build finished.'))
+          tail.quit()
         }
-        else {
-          peer.send(useSend201(`${lastLine}`))
-        }
-      })
+      }).start()
     }
   },
   close(peer) {
