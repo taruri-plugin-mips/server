@@ -2,7 +2,7 @@ import type { Message } from '~~/types'
 import { existsSync, readFileSync } from 'node:fs'
 import TailFile from '@logdna/tail-file'
 import { consola } from 'consola'
-import { createFileSync } from 'fs-extra'
+import { createFileSync, ensureDirSync } from 'fs-extra'
 import { join } from 'pathe'
 
 export default defineWebSocketHandler({
@@ -22,9 +22,14 @@ export default defineWebSocketHandler({
     const logPath = join(releaseFolder, '..', 'tauri_build.log')
     // 判断文件是否存在，不存在则创建
     if (!existsSync(logPath)) {
-      // 编译
+      /** 编译 */
+      // 创建日志文件
       createFileSync(logPath)
       const minLogoPath = logPath.replace(folder, '')
+      // 创建 dist 目录
+      const debDistpath = join(releaseFolder, '..', 'dist')
+      const miniDebDistpath = debDistpath.replace(folder, '')
+      ensureDirSync(debDistpath)
 
       for (const [index, item] of arch.entries()) {
         try {
@@ -47,6 +52,10 @@ export default defineWebSocketHandler({
               logpath: {
                 mini: minLogoPath,
                 full: logPath,
+              },
+              distpath: {
+                full: debDistpath,
+                min: miniDebDistpath,
               },
               end: index === arch.length - 1,
             },

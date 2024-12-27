@@ -1,6 +1,7 @@
 import type { Peer } from 'crossws'
 import type { Arch } from '~~/types'
 import { exec } from 'node:child_process'
+import { join } from 'node:path'
 import TailFile from '@logdna/tail-file'
 import { consola } from 'consola'
 
@@ -19,6 +20,10 @@ export function useBuild(
       mini: string
       full: string
     }
+    distpath: {
+      full: string
+      min: string
+    }
     end: boolean
   },
 ) {
@@ -26,7 +31,7 @@ export function useBuild(
   peer.send(useSend201(`Building Start ${props.arch.name} target in ${props.arch.target} ...`))
   const dockerFolder = useRuntimeConfig().dockerFolder
   const localFolder = useRuntimeConfig().folder
-  return new Promise<void>((resolve, reject) => {
+  return new Promise<void>((resolve) => {
     exec(
       `docker run --rm \
         -v ${localFolder}:${dockerFolder} \
@@ -36,11 +41,9 @@ export function useBuild(
       (error, stdout, stderr) => {
         if (error) {
           consola.error(`exec error: ${error}`)
-          reject(error)
         }
         if (stderr) {
           consola.error(`exec error: ${stderr}`)
-          reject(stderr)
         }
       },
     )
@@ -51,6 +54,10 @@ export function useBuild(
         peer.send(useSend201(`${line}`))
         if (['BUILD FINISHED', 'BUILD NEXT'].includes(line)) {
           tail.quit()
+          useCopyFolder({
+            src: join(props.path, 'src-tauri', 'target', props.arch.target),
+            desc: join(_options.distpath.full, props.arch.name),
+          })
           resolve()
         }
       })
