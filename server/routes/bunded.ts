@@ -75,6 +75,8 @@ export default defineWebSocketHandler({
           consola.error(err)
         }
       }
+
+      /* use bundle deb */
     }
     else {
       // 查看日志
