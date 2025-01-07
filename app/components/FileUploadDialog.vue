@@ -51,7 +51,7 @@ async function handleConfirm() {
     method: 'post',
     body: formdata,
   }).then((res: any) => {
-    router.push(`/action?folder=${res.folder}&debug=${debugMode.value}&arch=${archList.value.filter(item => item.model).map(item => item.arch.name).join(',')}`)
+    router.push(`/action?name=${res.name}&folder=${res.folder}&debug=${debugMode.value}&arch=${archList.value.filter(item => item.model).map(item => item.arch.name).join(',')}`)
   })
 }
 </script>

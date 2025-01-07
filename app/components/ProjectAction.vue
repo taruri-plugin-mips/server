@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const props = withDefaults(defineProps<{
+  name: string
   folder: string
   debug?: boolean
   arch?: string
@@ -21,6 +22,7 @@ onMounted(() => {
 
   send(
     JSON.stringify({
+      name: props.name,
       folder: props.folder,
       debug: props.debug,
       arch: props.arch,

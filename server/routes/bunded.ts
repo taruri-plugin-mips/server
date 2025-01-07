@@ -2,7 +2,7 @@ import type { Message } from '~~/types'
 import { existsSync, readFileSync } from 'node:fs'
 import TailFile from '@logdna/tail-file'
 import { consola } from 'consola'
-import { createFileSync, ensureDirSync } from 'fs-extra'
+import fs, { createFileSync, ensureDirSync } from 'fs-extra'
 import { join } from 'pathe'
 
 export default defineWebSocketHandler({
@@ -17,6 +17,9 @@ export default defineWebSocketHandler({
     const debug = msg.debug
     const arch = useArch(msg.arch)
     let _successFlag = 0
+
+    // 将 release 目录下的 envs 目录移动到 上一级
+    fs.moveSync(join(releaseFolder, 'envs'), join(releaseFolder, '..', 'envs'))
 
     // 创建 日志 log 文件
     const logPath = join(releaseFolder, '..', 'tauri_build.log')
@@ -65,7 +68,7 @@ export default defineWebSocketHandler({
           _successFlag += 1
           // todo next action ...
           if (_successFlag >= arch.length) {
-            peer.send(useSend200('Build finished.'))
+            peer.send(useSend202('Build finished.'))
           }
           else {
             peer.send(useSend202(`${item.name} Build finished.`))
@@ -76,7 +79,14 @@ export default defineWebSocketHandler({
         }
       }
 
+      consola.start('Build finished. next build deb')
       /* use bundle deb */
+      useDeb({
+        projectName: msg.name,
+        dist: debDistpath,
+        archList: arch,
+      })
+      peer.send(useSend202('Build finished.'))
     }
     else {
       // 查看日志

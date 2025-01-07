@@ -68,6 +68,8 @@ export default defineEventHandler(async (event) => {
         await remove(filePath)
 
         resolve({
+          name: projectName,
+          version,
           folder: releaseFolder,
         })
       })
