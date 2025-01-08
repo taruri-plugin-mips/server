@@ -1,6 +1,7 @@
 import type { Arch } from '~~/types/arch'
 import child from 'node:child_process'
 import consola from 'consola'
+import fs from 'fs-extra'
 import { join } from 'pathe'
 
 export interface UseDebOptions {
@@ -35,6 +36,8 @@ export function useDeb(props: UseDebOptions) {
             dpkg -b "${join(dockerFolder, arch.name)}" "${dockerFolder}/${arch.name}/${projectName}.${arch.name}.deb"
           `,
           () => {
+            // 将 deb 文件 移动到 envs 目录下
+            fs.moveSync(join(envsPath, arch.name, `${projectName}.${arch.name}.deb`), join(envsPath))
             consola.log(stdout, 'deb finished')
           },
         )

@@ -16,8 +16,18 @@ const modelValue = defineModel<Folder[]>({
   rounded-md px-3 py-2 w-95% shadow-md cursor-pointer
   "
   >
-    <div>
-      {{ version.name }}
+    <div class="flex justify-between" :class="[version.debs ? 'border-b border-gray/15 pb-2' : '']">
+      <div>
+        {{ version.name }}
+      </div>
+      <div v-if="version.debs">
+        all download
+      </div>
+    </div>
+    <div v-if="version.debs" class="flex flex-col justify-center items-start leading-normal mt-1">
+      <div v-for="deb in version.debs" :key="deb.name">
+        <span>{{ deb.name }}</span>
+      </div>
     </div>
   </div>
 </template>

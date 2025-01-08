@@ -22,7 +22,7 @@ export function useFolder(path: string): Folder[] {
 
   // sort the list by time
   lists.sort((a, b) => {
-    return b.time.getTime() - a.time.getTime()
+    return b.time!.getTime() - a.time!.getTime()
   })
 
   return lists
