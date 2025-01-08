@@ -18,9 +18,6 @@ export default defineWebSocketHandler({
     const arch = useArch(msg.arch)
     let _successFlag = 0
 
-    // 将 release 目录下的 envs 目录移动到 上一级
-    fs.moveSync(join(releaseFolder, 'envs'), join(releaseFolder, '..', 'envs'))
-
     // 创建 日志 log 文件
     const logPath = join(releaseFolder, '..', 'tauri_build.log')
     // 判断文件是否存在，不存在则创建
@@ -28,6 +25,8 @@ export default defineWebSocketHandler({
       /** 编译 */
       // 创建日志文件
       createFileSync(logPath)
+      // 将 release 目录下的 envs 目录移动到 上一级
+      fs.moveSync(join(releaseFolder, 'envs'), join(releaseFolder, '..', 'envs'))
       const minLogoPath = logPath.replace(folder, '')
       // 创建 dist 目录
       const debDistpath = join(releaseFolder, '..', 'dist')
@@ -81,12 +80,12 @@ export default defineWebSocketHandler({
 
       consola.start('Build finished. next build deb')
       /* use bundle deb */
-      useDeb({
+      await useDeb({
         projectName: msg.name,
         dist: debDistpath,
         archList: arch,
       })
-      peer.send(useSend202('Build finished.'))
+      peer.send(useSend200('Build finished.'))
     }
     else {
       // 查看日志
