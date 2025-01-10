@@ -22,11 +22,11 @@ const items = ref<{
     path: '/version',
     name: 'version manager',
   },
-  {
-    icon: 'docs',
-    path: '/docs',
-    name: 'Preview Docs',
-  },
+  // {
+  //   icon: 'docs',
+  //   path: '/docs',
+  //   name: 'Preview Docs',
+  // },
 ])
 
 const route = useRoute()
